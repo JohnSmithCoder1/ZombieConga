@@ -167,7 +167,7 @@ class GameScene: SKScene {
         }
         
         for cat in hitCats {
-            print("hit cat")
+//            print("hit cat")
             zombieHit(cat)
         }
         
@@ -180,13 +180,13 @@ class GameScene: SKScene {
         }
         
         for enemy in hitEnemies {
-            print("hit enemy")
+//            print("hit enemy")
             zombieHit(enemy)
         }
     }
     
     func zombieHit(_ sprite: SKSpriteNode) {
-        print("** ZOMBIE HIT: \(sprite.name) **")
+        //print("** ZOMBIE HIT: \(sprite.name) **")
         if sprite.name == "cat" {
             //sprite.removeFromParent()
             //run(catCollisionSound)
@@ -308,7 +308,7 @@ class GameScene: SKScene {
     
     func moveSprite(_ sprite: SKSpriteNode, velocity: CGPoint) {
         let amountToMove = velocity * CGFloat(dt)
-        print("Amount to move: \(amountToMove)")
+//        print("Amount to move: \(amountToMove)")
         sprite.position += amountToMove
     }
     
@@ -341,7 +341,7 @@ class GameScene: SKScene {
             dt = 0
         }
         lastUpdateTime = currentTime
-        print("\(dt*1000) milliseconds since last update")
+//        print("\(dt*1000) milliseconds since last update")
         
         //moveSprite(zombie, velocity: CGPoint(x: zombieMovePointsPerSec, y: 0))
         if let lastTouchLocation = lastTouchLocation {
@@ -362,7 +362,7 @@ class GameScene: SKScene {
         
         if lives <= 0 && !gameOver {
             gameOver = true
-            print("You lose!")
+//            print("You lose!")
             
             let gameOverScene = GameOverScene(size: size, won: false)
             gameOverScene.scaleMode = scaleMode
