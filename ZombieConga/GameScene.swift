@@ -5,6 +5,7 @@
 //  Created by Banana Viking on 12/7/17.
 //  Copyright © 2017 Banana Viking. All rights reserved.
 //
+//  Customizations: slower cat spawn time, faster granny spawn time, slower grannies, smaller hit box, increased cats needed to win, decreased lives, custom zombieGrannyHit noise
 
 import SpriteKit
 import GameplayKit
@@ -29,9 +30,9 @@ class GameScene: SKScene {
     let catCollisionSound: SKAction = SKAction.playSoundFileNamed(
         "hitCat.wav", waitForCompletion: false)
     let enemyCollisionSound: SKAction = SKAction.playSoundFileNamed(
-        "hitCatLady.wav", waitForCompletion: false)
+        "zombieNoise.wav", waitForCompletion: false)
     
-    var lives = 5
+    var lives = 3  //changed from 5
     var gameOver = false
     let livesLabel = SKLabelNode(fontNamed: "Glimstick")
     let catsLabel = SKLabelNode(fontNamed: "Glimstick")
@@ -84,11 +85,11 @@ class GameScene: SKScene {
         
         run(SKAction.repeatForever(
             SKAction.sequence([SKAction.run(spawnEnemy),
-                               SKAction.wait(forDuration: 2.0)])))
+                               SKAction.wait(forDuration: 1.5)])))  //changed duration from 2.0
         
         run(SKAction.repeatForever(
             SKAction.sequence([SKAction.run(spawnCat),
-                               SKAction.wait(forDuration: 1.0)])))
+                               SKAction.wait(forDuration: 3.0)]))) //changed duration from 1.0
         
         livesLabel.text = "Lives: \(lives)"
         livesLabel.fontColor = SKColor.black
@@ -120,8 +121,8 @@ class GameScene: SKScene {
                 min: playableRect.minY + enemy.size.height/2,
                 max: playableRect.maxY - enemy.size.height/2))
         addChild(enemy)
-        
-        let actionMove = SKAction.moveTo(x: -enemy.size.width/2, duration: 2.0)
+        let actionMove = SKAction.moveTo(x: -enemy.size.width/2, duration: 3.0)
+        //let actionMove = SKAction.moveTo(x: -enemy.size.width/2, duration: 2.0)
         let actionRemove = SKAction.removeFromParent()
         enemy.run(SKAction.sequence([actionMove, actionRemove]))
     }
@@ -174,7 +175,7 @@ class GameScene: SKScene {
         var hitEnemies: [SKSpriteNode] = []
         enumerateChildNodes(withName: "enemy") { node, _ in
             let enemy = node as! SKSpriteNode
-            if enemy.frame.insetBy(dx: 20, dy: 20).intersects(self.zombie.frame) {
+            if enemy.frame.insetBy(dx: 100, dy: 100).intersects(self.zombie.frame) {  //changed dx dy from 20 to 100 making the hit box area smaller
                 hitEnemies.append(enemy)
             }
         }
@@ -244,9 +245,9 @@ class GameScene: SKScene {
             targetPosition = node.position
         }
         
-        if trainCount >= 5 && !gameOver {
+        if trainCount >= 10 && !gameOver { //changed from trainCount >= 5
             gameOver = true
-            print("You win!")
+//            print("You win!")
             
             let gameOverScene = GameOverScene(size: size, won: true)
             gameOverScene.scaleMode = scaleMode
